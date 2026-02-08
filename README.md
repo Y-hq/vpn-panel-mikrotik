@@ -1,3 +1,13 @@
+```
+  ███████╗ ██████╗ ██╗     
+  ██╔════╝██╔═══██╗██║     
+  ███████╗██║   ██║██║     
+  ╚════██║██║   ██║██║     
+  ███████║╚██████╔╝███████╗
+  ╚══════╝ ╚═════╝ ╚══════╝
+            S0L
+```
+
 # VPN Panel for Mikrotik
 
 A lightweight and beginner‑friendly VPN user management panel for Mikrotik routers.  
@@ -40,7 +50,7 @@ vpn-panel-mikrotik/
 
 ## 🛠 Requirements
 
-To run this project, you only need:
+You only need:
 
 - **Docker**
 - **Docker Compose**
@@ -50,7 +60,7 @@ To run this project, you only need:
 
 ## ⚙️ Getting Started
 
-Follow these steps to run the project on your machine.
+Follow these steps to run the project.
 
 ---
 
@@ -65,13 +75,11 @@ cd vpn-panel-mikrotik
 
 ### **2. Create the `.env` file**
 
-Copy the example environment file:
-
 ```bash
 cp .env.example .env
 ```
 
-Then open `.env` and fill in your Mikrotik information:
+Then edit `.env`:
 
 ```env
 MIKROTIK_HOST=192.168.88.1
@@ -80,34 +88,30 @@ MIKROTIK_USER=admin
 MIKROTIK_PASSWORD=your-password
 ```
 
-If you don’t have a Mikrotik device, you can leave the defaults — the backend will still run.
-
 ---
 
-### **3. Build and run the project with Docker**
+### **3. Build and run with Docker**
 
 ```bash
 docker-compose build
 docker-compose up -d
 ```
 
-This will start:
+Services started:
 
-- **backend** → Flask API  
-- **db** → PostgreSQL  
-- **nginx** → Reverse proxy on port 80  
+- backend (Flask API)  
+- db (PostgreSQL)  
+- nginx (reverse proxy on port 80)  
 
 ---
 
 ### **4. Health Check**
 
-Open in your browser:
-
 ```
 http://localhost/health
 ```
 
-Expected output:
+Expected:
 
 ```json
 {"status": "ok"}
@@ -117,38 +121,26 @@ Expected output:
 
 ## 📡 API Endpoints
 
-### **1. List all users**
-
+### List users
 ```
 GET /api/users
 ```
 
----
-
-### **2. Create a new user**
-
+### Create user
 ```
 POST /api/users
-Content-Type: application/json
-
 {
   "username": "test",
   "password": "1234"
 }
 ```
 
----
-
-### **3. Disable a user**
-
+### Disable user
 ```
 POST /api/users/<id>/disable
 ```
 
----
-
-### **4. Delete a user**
-
+### Delete user
 ```
 DELETE /api/users/<id>
 ```
@@ -157,22 +149,18 @@ DELETE /api/users/<id>
 
 ## 🧩 Development Notes
 
-### **Mikrotik Integration**
-The file:
+### Mikrotik Integration
+Edit:
 
 ```
 backend/mikrotik_client.py
 ```
 
-contains placeholder methods (`create_vpn_user`, `disable_vpn_user`, `delete_vpn_user`).  
-You can replace these with real RouterOS API calls using libraries such as:
-
-- `routeros-api`
-- `librouteros`
+Replace placeholder methods with real RouterOS API calls if needed.
 
 ---
 
-### **Run backend without Docker (optional)**
+### Run backend without Docker (optional)
 
 ```bash
 cd backend
@@ -180,21 +168,15 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Then open:
-
-```
-http://localhost:5000/health
-```
-
 ---
 
 ## 📜 License
 
-This project is open-source and free to use or modify.
+Open-source and free to modify.
 
 ---
 
 ## ❤️ Author
 
 Created by **Y-hq**  
-Feel free to open an issue if you want improvements or new features.
+Feel free to open an issue for improvements.
