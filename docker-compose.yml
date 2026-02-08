@@ -23,6 +23,14 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
 
+  frontend:
+    build: ./frontend
+    container_name: vpn-frontend
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+
   nginx:
     image: nginx:alpine
     container_name: vpn-nginx
@@ -33,12 +41,7 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - backend
+      - frontend
 
 volumes:
   db_data:
-  frontend:
-  build: ./frontend
-  ports:
-    - "3000:3000"
-  stdin_open: true
-  tty: true
