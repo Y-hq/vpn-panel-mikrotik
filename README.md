@@ -8,6 +8,8 @@
             S0L
 ```
 
+[🇮🇷 Persian Version](README_FA.md)
+
 # VPN Panel for Mikrotik
 
 A lightweight and beginner‑friendly VPN user management panel for Mikrotik routers.  
