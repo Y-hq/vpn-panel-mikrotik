@@ -10,22 +10,31 @@
 
 [🇮🇷 Persian Version](README_FA.md)
 
-# VPN Panel for Mikrotik
+# Mikrotik VPN Panel
 
-A lightweight and beginner‑friendly VPN user management panel for Mikrotik routers.  
-This project provides a simple REST API to create, disable, and delete VPN users, with a clean backend architecture built using **Flask**, **PostgreSQL**, **Docker**, and **Nginx**.
+A lightweight, modern, and fully‑containerized VPN user management panel for **Mikrotik routers**.
+
+This version is built using:
+
+- **Backend:** Node.js + Express  
+- **Frontend:** React + TailwindCSS  
+- **Database:** PostgreSQL  
+- **Reverse Proxy:** Nginx  
+- **Deployment:** Docker Compose  
+
+The panel provides a clean REST API and a simple UI for managing VPN users.
 
 ---
 
 ## 🚀 Features
 
-- Create VPN users  
-- Disable VPN users  
+- Add VPN users  
+- Disable / Enable VPN users  
 - Delete VPN users  
 - Store users in PostgreSQL  
-- Ready-to-extend Mikrotik integration (currently simulated)  
-- Fully Dockerized (backend + database + nginx)  
-- Clean, modular, and easy-to-understand backend structure  
+- Fully Dockerized (frontend + backend + db + nginx)  
+- Clean and modular backend structure  
+- Modern React UI  
 
 ---
 
@@ -34,17 +43,28 @@ This project provides a simple REST API to create, disable, and delete VPN users
 ```
 vpn-panel-mikrotik/
 ├─ backend/
-│  ├─ app.py
-│  ├─ models.py
-│  ├─ mikrotik_client.py
-│  ├─ config.py
-│  ├─ extensions.py
-│  ├─ requirements.txt
+│  ├─ src/
+│  │  ├─ app.js
+│  │  ├─ routes.js
+│  │  ├─ db.js
+│  │  └─ controllers/
+│  ├─ package.json
 │  ├─ Dockerfile
-│  └─ __init__.py
-├─ docker-compose.yml
+│  └─ .env.example
+│
+├─ frontend/
+│  ├─ public/
+│  │  └─ index.html
+│  ├─ src/
+│  │  ├─ App.js
+│  │  ├─ Users.jsx
+│  │  ├─ index.js
+│  │  └─ index.css
+│  ├─ package.json
+│  └─ Dockerfile
+│
 ├─ nginx.conf
-├─ .env.example
+├─ docker-compose.yml
 └─ README.md
 ```
 
@@ -56,15 +76,11 @@ You only need:
 
 - **Docker**
 - **Docker Compose**
-- A Mikrotik router (optional — not required for testing)
+- A Mikrotik router (optional — backend works without it)
 
 ---
 
 ## ⚙️ Getting Started
-
-Follow these steps to run the project.
-
----
 
 ### **1. Clone the repository**
 
@@ -75,19 +91,19 @@ cd vpn-panel-mikrotik
 
 ---
 
-### **2. Create the `.env` file**
+### **2. Create the backend `.env` file**
 
 ```bash
-cp .env.example .env
+cp backend/.env.example backend/.env
 ```
 
-Then edit `.env`:
+Edit it:
 
 ```env
-MIKROTIK_HOST=192.168.88.1
-MIKROTIK_PORT=8728
-MIKROTIK_USER=admin
-MIKROTIK_PASSWORD=your-password
+DB_HOST=db
+DB_USER=vpn_user
+DB_PASSWORD=vpn_pass
+DB_NAME=vpn_db
 ```
 
 ---
@@ -95,35 +111,37 @@ MIKROTIK_PASSWORD=your-password
 ### **3. Build and run with Docker**
 
 ```bash
-docker-compose build
-docker-compose up -d
+docker-compose up --build
 ```
 
 Services started:
 
-- backend (Flask API)  
-- db (PostgreSQL)  
-- nginx (reverse proxy on port 80)  
+- **frontend** → React app on port **3000**  
+- **backend** → Express API behind Nginx  
+- **db** → PostgreSQL  
+- **nginx** → reverse proxy on port **80**  
 
 ---
 
-### **4. Health Check**
+### **4. Access the panel**
+
+Frontend:
 
 ```
-http://localhost/health
+http://localhost:3000
 ```
 
-Expected:
+Backend API (via Nginx):
 
-```json
-{"status": "ok"}
+```
+http://localhost/api/users
 ```
 
 ---
 
 ## 📡 API Endpoints
 
-### List users
+### Get all users
 ```
 GET /api/users
 ```
@@ -139,12 +157,17 @@ POST /api/users
 
 ### Disable user
 ```
-POST /api/users/<id>/disable
+PATCH /api/users/:id/disable
+```
+
+### Enable user
+```
+PATCH /api/users/:id/enable
 ```
 
 ### Delete user
 ```
-DELETE /api/users/<id>
+DELETE /api/users/:id
 ```
 
 ---
@@ -152,13 +175,11 @@ DELETE /api/users/<id>
 ## 🧩 Development Notes
 
 ### Mikrotik Integration
-Edit:
+You can extend real RouterOS API support inside:
 
 ```
-backend/mikrotik_client.py
+backend/src/controllers/mikrotik.js
 ```
-
-Replace placeholder methods with real RouterOS API calls if needed.
 
 ---
 
@@ -166,19 +187,19 @@ Replace placeholder methods with real RouterOS API calls if needed.
 
 ```bash
 cd backend
-pip install -r requirements.txt
-python app.py
+npm install
+npm start
 ```
 
 ---
 
 ## 📜 License
 
-Open-source and free to modify.
+Open‑source and free to modify.
 
 ---
 
 ## ❤️ Author
 
 Created by **Y-hq**  
-Feel free to open an issue for improvements.
+Feel free to open an issue or contribute.
